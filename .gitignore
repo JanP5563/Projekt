@@ -4,3 +4,22 @@ Raport.docx
 ~$Raport.docx
 moje/roadmap.png
 moje/~WRL0005.tmp
+
+# Środowisko wirtualne
+venv/
+ENV/
+env/
+
+# Pliki tymczasowe Pythona
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pliki bazy danych (jeśli używasz np. SQLite lokalnie)
+*.sqlite3
+*.db
+
+# Pliki systemowe i edytora
+.vscode/
+.idea/
+.DS_Store
