@@ -7,11 +7,12 @@ from flask import request
 from flask import current_app
 
 # Co zrobić?
-# Sprawdź czy model w html działa tak, jak powinien?
-# Zrób kod w python krótki żeby to sprawdzić
+# Żeby strona zapisywała jakoś dane, może przekieruj na inną podstronę, idk
+# 
 
 # Co mogę jeszcze zrobić?
 # 1. Dać obsługę wysłanego pustego arkusza na stronie
+# 2. Godziny tez one hot encoder
 
 
 app = Flask(__name__)
@@ -42,7 +43,7 @@ def main():
         dzien_k = [0] * 30
         if 1 <= dzien <= 30:
             dzien_k[dzien-1]=1
-        # Potem możesz też dodać godziny jako onehotencoder
+        
 
         pora_k = [0]*3
         if pora == 'wiosna':
@@ -59,13 +60,10 @@ def main():
              czy_szczyt = [0]
         kolumny = kolumny + czy_szczyt
 
-
-
-
         skalar_liniowy = joblib.load('models/scaler_linear.pkl')
         model_liniowy = joblib.load('models/model_linear.pkl')
 
-        macierz_liniowa = np.array(kolumny).reshape(1, -1)
+        #macierz_liniowa = np.array(kolumny).reshape(1, -1)
         nazwy_kolumn = ['Hour', 'Temperature(°C)', 'Humidity(%)',
        'Wind speed (m/s)', 'Visibility (10m)', 'Dew point temperature(°C)',
        'Solar Radiation (MJ/m2)', 'Rainfall(mm)', 'Snowfall (cm)', 'Holiday',
@@ -77,11 +75,24 @@ def main():
        'Day_31', 'Month_2', 'Month_3', 'Month_4', 'Month_5', 'Month_6',
        'Month_7', 'Month_8', 'Month_9', 'Month_10', 'Month_11', 'Month_12',
        'IsRushHour']
-        dane_liniowe = pd.DataFrame([kolumny], columns=nazwy_kolumn)
-        dane_liniowe_zeskalowane = skalar_liniowy.transform(dane_liniowe)
-        wynik_liniowy = model_liniowy.predict(dane_liniowe_zeskalowane)
-        wynik = f"Wynik modelu liniowego: {wynik_liniowy}"
+        dane = pd.DataFrame([kolumny], columns=nazwy_kolumn)
 
+        dane_liniowe_zeskalowane = skalar_liniowy.transform(dane)
+        wynik_liniowy = float(model_liniowy.predict(dane_liniowe_zeskalowane)[0])        
+
+
+        # Odpalamy model xgb
+        model_xgb = joblib.load('models/model_xgb.pkl')
+        wynik_xgb = float(model_xgb.predict(dane)[0])
+
+        if wynik_liniowy<0:
+             wynik_liniowy=0
+        if wynik_xgb<0:
+             wynik_xgb=0
+             
+        wynik = f"Wynik modelu liniowego: {int(wynik_liniowy)} \n Wynik modelu XGBoost: {int(wynik_xgb)}"
+
+        # pomoc = f"Wynik: {wynik} \n miesiac: {miesiac}, dzien: {dzien}, godzina: {godzina}, temp: {temperatura}, temp_r: {temperatura_rosy}, wilgo: {wilgotnosc}, wiatr: {wiatr}, przekrzystosc: {przejrzystosc}, slonce: {slonce}, deszcz: {deszcz}, snieg: {snieg}, swieto: {swieto}, praca: {praca}, pora roku: {pora}"
         return render_template("main.html", wynik = wynik)
     return render_template("main.html")
     
@@ -92,3 +103,16 @@ if __name__ == "__main__":
         5001,
         debug=True
     )
+        
+
+# --- WYNIKI REGRESJI LINIOWEJ ---
+# R2 Score Test: 0.4324
+# (MAE) Test: 318.36 rowerów
+# (MSE) Test: 184197.67 rowerów
+# (RMSE) Test: 429.18 rowerów
+
+# --- WYNIKI KOŃCOWE XGBOOST  ---
+# R2 Testowy: 0.5614
+# MAE Testowy: 271.2101
+# MSE Testowy: 142310.8750
+# RMSE Testowy: 377.2411
