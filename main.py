@@ -7,9 +7,10 @@ from flask import request
 
 # Co mogę jeszcze zrobić?
 # Dać obsługę wysłanego pustego arkusza na stronie
-# Żeby strona zapisywała jakoś dane, może przekieruj na inną podstronę, idk
-# Godziny tez one hot encoder albo sinus
-# Zmniejszyć liczbę parametrów, może to poprawi wyniki modeli
+# Żeby strona zapisywała jakoś dane, może przekieruj na inną podstronę, idk, zrób database jakiś
+# Żeby były lepsze wyniki: 
+#   Godziny tez one hot encoder albo sinus
+#   Zmniejszyć liczbę parametrów, może to poprawi wyniki modeli
 
 
 app = Flask(__name__)
@@ -17,6 +18,7 @@ app = Flask(__name__)
 @app.route("/", methods = ['GET', 'POST'])
 def main():
     if request.method=='POST':
+
         # Przyjmujemy dane od strony
         miesiac = int(request.form.get('miesiac'))      
         dzien = int(request.form.get('dzien'))
@@ -88,7 +90,6 @@ def main():
 
         wynik = f"Wynik modelu liniowego: {int(wynik_liniowy)} \n Wynik modelu XGBoost: {int(wynik_xgb)}"
 
-        # pomoc = f"Wynik: {wynik} \n miesiac: {miesiac}, dzien: {dzien}, godzina: {godzina}, temp: {temperatura}, temp_r: {temperatura_rosy}, wilgo: {wilgotnosc}, wiatr: {wiatr}, przekrzystosc: {przejrzystosc}, slonce: {slonce}, deszcz: {deszcz}, snieg: {snieg}, swieto: {swieto}, praca: {praca}, pora roku: {pora}"
         return render_template("main.html", wynik = wynik)
     return render_template("main.html")
     
