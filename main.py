@@ -4,15 +4,13 @@ import pandas as pd
 from flask import Flask
 from flask import render_template
 from flask import request
-from flask import current_app
-
-# Co zrobić?
-# Zrób raport i przygotuj to do wysłania, posprzątaj kod
 
 # Co mogę jeszcze zrobić?
+# Zrobić lepiej losowanie, żeby normalne liczby wychodziły
 # Dać obsługę wysłanego pustego arkusza na stronie
 # Żeby strona zapisywała jakoś dane, może przekieruj na inną podstronę, idk
-# Godziny tez one hot encoder
+# Godziny tez one hot encoder albo sinus
+# Zmniejszyć liczbę parametrów, może to poprawi wyniki modeli
 
 
 app = Flask(__name__)
@@ -20,7 +18,7 @@ app = Flask(__name__)
 @app.route("/", methods = ['GET', 'POST'])
 def main():
     if request.method=='POST':
-    # Przyjmujemy dane od strony
+        # Przyjmujemy dane od strony
         miesiac = int(request.form.get('miesiac'))      
         dzien = int(request.form.get('dzien'))
         godzina = int(request.form.get('godzina'))
@@ -62,8 +60,7 @@ def main():
 
         skalar_liniowy = joblib.load('models/scaler_linear.pkl')
         model_liniowy = joblib.load('models/model_linear.pkl')
-
-        #macierz_liniowa = np.array(kolumny).reshape(1, -1)
+        
         nazwy_kolumn = ['Hour', 'Temperature(°C)', 'Humidity(%)',
        'Wind speed (m/s)', 'Visibility (10m)', 'Dew point temperature(°C)',
        'Solar Radiation (MJ/m2)', 'Rainfall(mm)', 'Snowfall (cm)', 'Holiday',
@@ -106,12 +103,12 @@ if __name__ == "__main__":
         
 
 # --- WYNIKI REGRESJI LINIOWEJ ---
-# R2 Score Test: 0.4324
-# (MAE) Test: 318.36 rowerów
-# (MSE) Test: 184197.67 rowerów
-# (RMSE) Test: 429.18 rowerów
+# R2 Score Testowy: 0.4324
+# (MAE) Testowy: 318.36 rowerów
+# (MSE) Testowy: 184197.67 rowerów
+# (RMSE) Testowy: 429.18 rowerów
 
-# --- WYNIKI KOŃCOWE XGBOOST  ---
+# --- WYNIKI XGBOOST  ---
 # R2 Testowy: 0.5614
 # MAE Testowy: 271.2101
 # MSE Testowy: 142310.8750

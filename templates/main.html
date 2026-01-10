@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Formularz</title>
+    <title>Porównywanie wyników modeli AI</title>
 </head>
 <body>
     <h2>Wprowadź dane</h2>
@@ -11,57 +11,46 @@
             <label>Miesiąc (1-12):</label><br>
             <input type="number" name="miesiac" id="miesiac" min="1" max="12">
         </p>
-
         <p>
             <label>Dzień (1-31):</label><br>
             <input type="number" name="dzien" id="dzien" min="1" max="31">
         </p>
-
         <p>
             <label>Godzina (0-23):</label><br>
             <input type="number" name="godzina" id="godzina" min="0" max="23">
         </p>
-
         <p>
             <label>Temperatura (-20 do 40 °C):</label><br>
             <input type="number" name="temperatura" id="temperatura" min="-20" max="40" step="0.1">
         </p>
-
         <p>
             <label>Temperatura punktu rosy (-30 do 27 °C):</label><br>
             <input type="number" name="temp_rosy" id="temperatura_rosy" min="-30" max="27" step="0.1">
         </p>
-
         <p>
             <label>Wilgotność (0-100 %):</label><br>
             <input type="number" name="wilgotnosc" id="wilgotnosc" min="0" max="100">
         </p>
-
         <p>
             <label>Prędkość wiatru (m/s)(0-8):</label><br>
             <input type="number" name="wiatr" id="wiatr" min="0" max="8" step="0.1">
         </p>
-
         <p>
             <label>Przejrzystość (10m)(27-2000):</label><br>
             <input type="number" name="przejrzystosc" id="przejrzystosc" min="0" max="2000">
         </p>
-
         <p>
             <label>Promieniowanie słoneczne (MJ/m2)(0 - 3.5):</label><br>
             <input type="number" name="slonce" id="slonce" min="0" max="3.5" step="0.1">
         </p>
-
         <p>
             <label>Deszcz (mm)(0 - 35):</label><br>
             <input type="number" name="deszcz" id="deszcz" min="0" max="35" step="0.1">
         </p>
-
-          <p>
+        <p>
             <label>Śnieg (cm)(0 - 8):</label><br>
             <input type="number" name="snieg" id="snieg" min="0" max="8" step="0.1">
         </p>
-
         <p>
             <label>Czy święto</label><br>
             <select name="swieto" id="swieto">
@@ -69,7 +58,6 @@
                 <option value="Nie">Nie</option>
             </select>
         </p>
-
         <p>
             <label>Czy dzien pracy</label><br>
             <select name="praca" id="praca">
@@ -77,7 +65,6 @@
                 <option value="Nie">Nie</option>
             </select>
         </p>
-
         <p>
             <label>Pora roku:</label><br>
             <select name="pora" id="pora">
@@ -87,7 +74,6 @@
                 <option value="zima">Zima</option>
             </select>
         </p>
-
         <button type="button" onclick="losuj()">LOSUJ DANE</button>
         <button type="submit">WYŚLIJ</button>
     </form>
@@ -97,12 +83,17 @@
         <h3>Wynik:</h3>
         <p>{{ wynik }}</p>
     
-
     
     <script>
     function losuj() {
-        const r = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-        const rf = (min, max) => (Math.random() * (max - min) + min).toFixed(1);
+        
+        function r(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function rf(min, max) {
+            return parseFloat((Math.random() * (max - min) + min).toFixed(1));
+        }
 
         document.getElementById('miesiac').value = r(1, 12);
         document.getElementById('dzien').value = r(1, 31);
@@ -125,6 +116,5 @@
         document.getElementById('pora').value = pory[r(0, 3)];
     }
 </script>
-    
 </body>
 </html>

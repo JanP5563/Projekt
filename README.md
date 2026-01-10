@@ -14,11 +14,6 @@ W projekcie porównujemy dwa podejścia:
 * **Model Prosty:** Regresja Liniowa.
 * **Model Złożony:** XGBoost.
 
-## Technologie
-* **Backend:** Flask
-* **AI/ML:** Scikit-learn, Pandas, Google Colab (trening)
-* **Frontend:** HTML5, CSS
-
 ## Dane
 **Dataset**: Seoul Bike Sharing Demand, UCI Machine Learning Repository
 
