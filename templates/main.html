@@ -85,6 +85,7 @@
     
     
     <script>
+        <!-- funkcja losuje z najpopularniejszych przedziałów, aby modele wskazywały prawidłowe liczby -->
     function losuj() {
         
         function r(min, max) {
@@ -98,15 +99,15 @@
         document.getElementById('miesiac').value = r(1, 12);
         document.getElementById('dzien').value = r(1, 31);
         document.getElementById('godzina').value = r(0, 23);
-        document.getElementById('wilgotnosc').value = r(0, 100);
-        document.getElementById('przejrzystosc').value = r(27, 2000);
+        document.getElementById('wilgotnosc').value = r(25, 90);
+        document.getElementById('przejrzystosc').value = 2000;
 
-        document.getElementById('temperatura').value = rf(-20, 40);
-        document.getElementById('temperatura_rosy').value = rf(-30, 27);
-        document.getElementById('wiatr').value = rf(0, 8);
-        document.getElementById('slonce').value = rf(0, 3.5);
-        document.getElementById('deszcz').value = rf(0, 35);
-        document.getElementById('snieg').value = rf(0, 8);
+        document.getElementById('temperatura').value = rf(-10, 30);
+        document.getElementById('temperatura_rosy').value = rf(-20, 25);
+        document.getElementById('wiatr').value = rf(0, 3.5);
+        document.getElementById('slonce').value = 0.0;
+        document.getElementById('deszcz').value = 0.0;
+        document.getElementById('snieg').value = 0.0;
 
         const takNie = ['Tak', 'Nie'];
         document.getElementById('swieto').value = takNie[r(0, 1)];

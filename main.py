@@ -6,7 +6,6 @@ from flask import render_template
 from flask import request
 
 # Co mogę jeszcze zrobić?
-# Zrobić lepiej losowanie, żeby normalne liczby wychodziły
 # Dać obsługę wysłanego pustego arkusza na stronie
 # Żeby strona zapisywała jakoś dane, może przekieruj na inną podstronę, idk
 # Godziny tez one hot encoder albo sinus
